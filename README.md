@@ -2,4 +2,4 @@
 Bootstrapping Kubernetes Cluster Using Kubeadm on Vagrant
 
 ## Steps
-* 
+*
