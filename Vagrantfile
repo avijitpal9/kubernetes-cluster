@@ -1,0 +1,51 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+
+$script = <<-SCRIPT
+echo '192.168.190.10 master1.internal master1' >> /etc/hosts
+echo '192.168.190.20 node1.internal node1' >> /etc/hosts
+echo '192.168.190.30 node2.internal node2' >> /etc/hosts
+SCRIPT
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "centos/7"
+  config.vm.box_check_update = false
+  
+  config.vm.define "master1" do |master1|
+     master1.vm.hostname="master1.internal"
+	 master1.vm.network :private_network, ip: "192.168.190.10"
+	 master1.vm.synced_folder "C:\\Users\\apal8\\Google Drive\\study\\scripts\\k8s", "/opt/k8s-scripts", create: true
+     master1.vm.synced_folder "D:\\Git", "/opt/git", create: true
+	 master1.vm.provider :virtualbox do |ps|
+	   ps.memory=3072
+	 end
+	 master1.vm.provision "shell", inline: $script
+  end  
+  
+  config.vm.define "node1" do |node1|
+     node1.vm.hostname="node1.internal"
+	 node1.vm.network :private_network, ip: "192.168.190.20"
+	 node1.vm.provider :virtualbox do |ps|
+	   ps.memory=2048
+	 end
+	 node1.vm.provision "shell", inline: $script
+  end 
+
+
+  config.vm.define "node2" do |node2|
+     node2.vm.hostname="node2.internal"
+	 node2.vm.network :private_network, ip: "192.168.190.30"
+	 node2.vm.provider :virtualbox do |ps|
+	   ps.memory=2048
+	 end
+	 node2.vm.provision "shell", inline: $script
+  end 
+
+
+end
