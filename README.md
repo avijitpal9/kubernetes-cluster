@@ -9,6 +9,6 @@ and running. Check the IP Address of all nodes on eth1 address (192.168.X.X)
 * Vagrant- Version: 2.0.4
 * VirtualBox- Version: 5.1.28
 * Cygwin (Optional)
-    
+
 ## Steps
 *
