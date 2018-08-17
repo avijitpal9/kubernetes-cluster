@@ -160,10 +160,24 @@ metadata:
   name: kubernetes-dashboard
   namespace: kube-system
 spec:
-  type: NodePort
+# type: NodePort ## Defaults to ClusterIP. uncomment for NodePort
   ports:
     - port: 80
       targetPort: 9090
       nodePort: 30667
   selector:
     k8s-app: kubernetes-dashboard
+
+---
+# ------------------- Dashboard Ingress Rule ------------------- #
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dashboard-ingress
+  namespace: kube-system
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  backend:
+    serviceName: kubernetes-dashboard
+    servicePort: 80
