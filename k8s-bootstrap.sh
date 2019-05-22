@@ -53,8 +53,14 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 exclude=kube*
 EOF
 
+# Set SELinux in permissive mode (effectively disabling it)
+setenforce 0
+sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
 # Install kubelet kubeadm kubectl
-yum install -y kubelet-1.11.2-0 kubeadm-1.11.2-0 kubectl-1.11.2-0 --disableexcludes=kubernetes
+yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+systemctl enable --now kubelet
+
 cat <<EOF > /etc/systemd/system/kubelet.service.d/11-cgroups.conf
 [Service]
 CPUAccounting=true
