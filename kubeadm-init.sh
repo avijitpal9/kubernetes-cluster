@@ -5,7 +5,7 @@
 if [[ `hostname` == "master1.internal" ]]
 then
   kubeadm init --apiserver-advertise-address=192.168.195.10 --pod-network-cidr=10.32.0.0/12 | tee /tmp/kubeadm-init.tmp
-  kubeadmjoin=$(grep "kubeadm join" /tmp/kubeadm-init.tmp)
+  kubeadmjoin=$(grep -A 1 "kubeadm join" /tmp/kubeadm-init.tmp)
   sed -i '/export KUBECONFIG/d' /root/.bash_profile
   sed -i -e '$aexport KUBECONFIG=/etc/kubernetes/admin.conf' /root/.bash_profile
   source /root/.bash_profile
