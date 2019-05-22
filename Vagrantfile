@@ -18,6 +18,7 @@ Vagrant.configure("2") do |config|
 	 master1.vm.synced_folder "D:\\Git", "/opt/git", create: true
 	 master1.vm.provider :virtualbox do |ps|
 	   ps.memory=3072
+           ps.cpus = 2
 	 end
 	 master1.vm.provision "shell", path: "k8s-bootstrap.sh"
   end
@@ -27,6 +28,7 @@ Vagrant.configure("2") do |config|
 	 node1.vm.network :private_network, ip: "192.168.195.20"
 	 node1.vm.provider :virtualbox do |ps|
 	   ps.memory=2048
+	   ps.cpus = 2
 	 end
 	 node1.vm.provision "shell", path: "k8s-bootstrap.sh"
   end
@@ -37,6 +39,7 @@ Vagrant.configure("2") do |config|
 	 node2.vm.network :private_network, ip: "192.168.195.30"
 	 node2.vm.provider :virtualbox do |ps|
 	   ps.memory=2048
+	   ps.cpus = 2
 	 end
 	 node2.vm.provision "shell", path: "k8s-bootstrap.sh"
   end
